@@ -1,24 +1,20 @@
 import { useState } from "react";
 
-export default function TrafficLight() {
-  const [walk, setWalk] = useState(true);
-
-  function handleClick() {
-    alert((walk ? "Stop" : "Walk") + " is next");
-    setWalk(!walk);
-    alert((walk ? "Stop" : "Walk") + " is next");
-  }
+export default function Counter() {
+  const [number, setNumber] = useState(0);
 
   return (
     <>
-      <button onClick={handleClick}>Change to {walk ? "Stop" : "Walk"}</button>
-      <h1
-        style={{
-          color: walk ? "darkgreen" : "darkred",
+      <h1>{number}</h1>
+      <button
+        onClick={() => {
+          setNumber((n) => n + 1);
+          setNumber((n) => n + 1);
+          setNumber((n) => n + 1);
         }}
       >
-        {walk ? "Walk" : "Stop"}
-      </h1>
+        +3
+      </button>
     </>
   );
 }
