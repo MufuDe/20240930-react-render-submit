@@ -8,12 +8,13 @@ export default function Counter() {
       <h1>{number}</h1>
       <button
         onClick={() => {
-          setNumber(number + 1);
-          setNumber(number + 2);
-          setNumber(number + 3);
+          setNumber(number + 5);
+          setTimeout(() => {
+            alert(number);
+          }, 3000);
         }}
       >
-        +3
+        +5
       </button>
     </>
   );
