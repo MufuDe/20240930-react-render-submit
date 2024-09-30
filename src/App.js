@@ -1,20 +1,27 @@
 import { useState } from "react";
 
-export default function Counter() {
-  const [number, setNumber] = useState(0);
+export default function RequestTracker() {
+  const [pending, setPending] = useState(0);
+  const [completed, setCompleted] = useState(0);
+
+  async function handleClick() {
+    setPending((pending) => pending + 1);
+    await delay(3000);
+    setPending((pending) => pending - 1);
+    setCompleted((completed) => completed + 1);
+  }
 
   return (
     <>
-      <h1>{number}</h1>
-      <button
-        onClick={() => {
-          setNumber(number + 5);
-          setNumber((n) => n + 1);
-          setNumber(42);
-        }}
-      >
-        增加数字
-      </button>
+      <h3>等待：{pending}</h3>
+      <h3>完成：{completed}</h3>
+      <button onClick={handleClick}>购买</button>
     </>
   );
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
