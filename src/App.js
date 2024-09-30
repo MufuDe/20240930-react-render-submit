@@ -1,18 +1,29 @@
-import { useState, useEffect } from "react";
-import Clock from "./Clock.js";
+import { useState } from "react";
 
-function useTime() {
-  const [time, setTime] = useState(() => new Date());
-  useEffect(() => {
-    const id = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
-  return time;
+export default function Form() {
+  const [isSent, setIsSent] = useState(false);
+  const [message, setMessage] = useState("Hi!");
+  if (isSent) {
+    return <h1>Your message is on its way!</h1>;
+  }
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        setIsSent(true);
+        sendMessage(message);
+      }}
+    >
+      <textarea
+        placeholder="Message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button type="submit">Send</button>
+    </form>
+  );
 }
 
-export default function App() {
-  const time = useTime();
-  return <Clock time={time.toLocaleTimeString()} />;
+function sendMessage(message) {
+  // ...
 }
