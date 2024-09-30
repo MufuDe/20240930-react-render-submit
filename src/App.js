@@ -7,26 +7,10 @@ export default function Form() {
     email: "bhepworth@sculpture.com",
   });
 
-  function handleFirstNameChange(e) {
-    setPerson({
-      firstName: e.target.value,
-      lastName: person.lastName,
-      email: person.email,
-    });
-  }
-
-  function handleLastNameChange(e) {
-    setPerson({
-      // 复制上一个 person 中的所有字段
-      ...person,
-      lastName: e.target.value,
-    });
-  }
-
-  function handleEmailChange(e) {
+  function handleChange(e) {
     setPerson({
       ...person,
-      email: e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -34,15 +18,23 @@ export default function Form() {
     <>
       <label>
         First name:
-        <input value={person.firstName} onChange={handleFirstNameChange} />
+        <input
+          name="firstName"
+          value={person.firstName}
+          onChange={handleChange}
+        />
       </label>
       <label>
         Last name:
-        <input value={person.lastName} onChange={handleLastNameChange} />
+        <input
+          name="lastName"
+          value={person.lastName}
+          onChange={handleChange}
+        />
       </label>
       <label>
         Email:
-        <input value={person.email} onChange={handleEmailChange} />
+        <input name="email" value={person.email} onChange={handleChange} />
       </label>
       <p>
         {person.firstName} {person.lastName} ({person.email})
