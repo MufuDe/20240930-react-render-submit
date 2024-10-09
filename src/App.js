@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useImmer } from "use-immer";
 import AddTodo from "./AddTodo.js";
 import TaskList from "./TaskList.js";
 
@@ -10,33 +11,31 @@ const initialTodos = [
 ];
 
 export default function TaskApp() {
-  const [todos, setTodos] = useState(initialTodos);
+  const [todos, updateTodos] = useImmer(initialTodos);
 
   function handleAddTodo(title) {
-    setTodos([
-      ...todos,
-      {
+    updateTodos((draft) => {
+      draft.push({
         id: nextId++,
         title: title,
         done: false,
-      },
-    ]);
+      });
+    });
   }
 
   function handleChangeTodo(nextTodo) {
-    setTodos(
-      todos.map((t) => {
-        if (t.id === nextTodo.id) {
-          return nextTodo;
-        } else {
-          return t;
-        }
-      })
-    );
+    updateTodos((draft) => {
+      const todo = draft.find((t) => t.id === nextTodo.id);
+      todo.title = nextTodo.title;
+      todo.done = nextTodo.done;
+    });
   }
 
   function handleDeleteTodo(todoId) {
-    setTodos(todos.filter((t) => t.id !== todoId));
+    updateTodos((draft) => {
+      const index = draft.findIndex((t) => t.id === todoId);
+      draft.splice(index, 1);
+    });
   }
 
   return (
