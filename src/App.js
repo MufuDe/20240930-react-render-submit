@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useImmer } from "use-immer";
 
 let nextId = 3;
 const initialList = [
@@ -8,35 +9,21 @@ const initialList = [
 ];
 
 export default function BucketList() {
-  const [myList, setMyList] = useState(initialList);
-  const [yourList, setYourList] = useState(initialList);
+  const [myList, updateMyList] = useImmer(initialList);
+  const [yourList, updateYourList] = useImmer(initialList);
 
-  function handleToggleMyList(artworkId, nextSeen) {
-    setMyList(
-      myList.map((artwork) => {
-        if (artwork.id === artworkId) {
-          // 创建包含变更的*新*对象
-          return { ...artwork, seen: nextSeen };
-        } else {
-          // 没有变更
-          return artwork;
-        }
-      })
-    );
+  function handleToggleMyList(id, nextSeen) {
+    updateMyList((draft) => {
+      const artwork = draft.find((a) => a.id === id);
+      artwork.seen = nextSeen;
+    });
   }
 
   function handleToggleYourList(artworkId, nextSeen) {
-    setYourList(
-      yourList.map((artwork) => {
-        if (artwork.id === artworkId) {
-          // 创建包含变更的*新*对象
-          return { ...artwork, seen: nextSeen };
-        } else {
-          // 没有变更
-          return artwork;
-        }
-      })
-    );
+    updateYourList((draft) => {
+      const artwork = draft.find((a) => a.id === artworkId);
+      artwork.seen = nextSeen;
+    });
   }
 
   return (
