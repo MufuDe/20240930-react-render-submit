@@ -25,10 +25,31 @@ export default function ShoppingCart() {
     setProducts(
       products.map((product) => {
         if (product.id === productId) {
-          return { ...product, count: product.count + 1 };
+          return {
+            ...product,
+            count: product.count + 1,
+          };
         } else {
           return product;
         }
+      })
+    );
+  }
+
+  function handleSubtractClick(productId) {
+    let mapProducts = products.map((product) => {
+      if (product.id === productId) {
+        return {
+          ...product,
+          count: product.count - 1,
+        };
+      } else {
+        return product;
+      }
+    });
+    setProducts(
+      mapProducts.filter((product) => {
+        return product.count > 0;
       })
     );
   }
@@ -44,6 +65,13 @@ export default function ShoppingCart() {
             }}
           >
             +
+          </button>
+          <button
+            onClick={() => {
+              handleSubtractClick(product.id);
+            }}
+          >
+            –
           </button>
         </li>
       ))}
