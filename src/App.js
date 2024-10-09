@@ -12,17 +12,31 @@ export default function BucketList() {
   const [yourList, setYourList] = useState(initialList);
 
   function handleToggleMyList(artworkId, nextSeen) {
-    const myNextList = [...myList];
-    const artwork = myNextList.find((a) => a.id === artworkId);
-    artwork.seen = nextSeen;
-    setMyList(myNextList);
+    setMyList(
+      myList.map((artwork) => {
+        if (artwork.id === artworkId) {
+          // 创建包含变更的*新*对象
+          return { ...artwork, seen: nextSeen };
+        } else {
+          // 没有变更
+          return artwork;
+        }
+      })
+    );
   }
 
   function handleToggleYourList(artworkId, nextSeen) {
-    const yourNextList = [...yourList];
-    const artwork = yourNextList.find((a) => a.id === artworkId);
-    artwork.seen = nextSeen;
-    setYourList(yourNextList);
+    setYourList(
+      yourList.map((artwork) => {
+        if (artwork.id === artworkId) {
+          // 创建包含变更的*新*对象
+          return { ...artwork, seen: nextSeen };
+        } else {
+          // 没有变更
+          return artwork;
+        }
+      })
+    );
   }
 
   return (
